@@ -48,7 +48,8 @@ public class ProjectionDetector {
   public List<Map.Entry<Projection, Double>> distanceToProjections(double x, double y, double aprioriLatitude, double aprioriLongitude) {
     Map<Projection, Double> distanceToProjections = new HashMap<>(projections.size());
     for (Projection projection : projections) {
-      distanceToProjections.put(projection, calculateKilometersDistance(x, y, aprioriLatitude, aprioriLongitude));
+      projection.grid_to_geodetic(x, y);
+      distanceToProjections.put(projection, calculateKilometersDistance(projection.getLatitude(), projection.getLongitude(), aprioriLatitude, aprioriLongitude));
     }
     List<Map.Entry<Projection, Double>> ordered = new ArrayList<>(distanceToProjections.entrySet());
     Collections.sort(ordered, new Comparator<Map.Entry<Projection, Double>>() {
